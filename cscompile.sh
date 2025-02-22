@@ -1,16 +1,16 @@
 #!/bin/bash
 
+if [ -z "$1" ]; then
+    echo "Usage: cscompile <target: win-x64, linux-x64, osx-x64, osx-arm64, win-arm64> <project dir: optional>"
+    exit 1
+fi
+
 target="$1"
 pathinput="${2/#\~/$HOME}"
 project_dir="$(realpath "${pathinput-"$(pwd)"}")"
 publish="$project_dir/publish"
 dir="$project_dir/publish/$target"
 cd "$project_dir"
-
-if [ -z "$1" ]; then
-    echo "Usage: cscompile <target: win-x64, linux-x64, osx-x64, osx-arm64, win-arm64> <project dir: optional>"
-    exit 1
-fi
 
 if [ ! -f *.csproj ]; then
     echo "Error: C# project not found at directory $project_dir"
