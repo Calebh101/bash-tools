@@ -1,0 +1,6 @@
+#!/bin/bash
+
+script_dir=$(dirname "$(realpath "$0")")
+parent_dir=$(dirname "$script_dir")
+
+find "$script_dir" -maxdepth 1 -type f -exec basename {} \;
