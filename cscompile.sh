@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-    echo "Usage: cscompile <target: win-x64, linux-x64, osx-x64, osx-arm64, win-arm64> <project dir: optional>"
+if [[ -z "$1" || -z "$2" ]]; then
+    echo "Usage: cscompile <target: win-x64, linux-x64, osx-x64, osx-arm64, win-arm64> <project dir> <output dir: optional>"
     exit 1
 fi
 
@@ -9,7 +9,13 @@ target="$1"
 pathinput="${2/#\~/$HOME}"
 project_dir="$(realpath "${pathinput-"$(pwd)"}")"
 publish="$project_dir/publish"
-dir="$project_dir/publish/$target"
+
+if [ -n "$3" ]; then
+    outputdir="${3/#\~/$HOME}"
+    publish="$(realpath "${outputdir-"$(pwd)"}")/publish"
+fi
+
+dir="$publish/$target"
 cd "$project_dir"
 
 if [ ! -f *.csproj ]; then
